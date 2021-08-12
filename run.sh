@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. config.sh
+. $(dirname "$0")/config.sh
 
 USERCONFIG="--user ${USERID}:${GROUPID}"
 
