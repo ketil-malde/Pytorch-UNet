@@ -1,5 +1,9 @@
 # Use an official Python runtime as a parent image
+
+# Pytorch not compatible with 3090
 FROM tensorflow/tensorflow:1.15.2-gpu-py3
+# FROM nvcr.io/nvidia/pytorch:20.12-py3  # fails to detect GPU, not compat without AVX
+# FROM nvcr.io/nvidia/pytorch:21.07-py3  # version mismatch (470 vs 460), no GPU
 
 # Set the working directory to 
 WORKDIR /project
@@ -25,6 +29,12 @@ RUN passwd -d $user
 
 COPY . /project
 RUN pip3 install --trusted-host pypi.python.org -r requirements.txt
+
+# Use v 410 for tensorflow:1.15.2, 460? for pytorch containers
+RUN apt-get install -y nvidia-utils-410
+
+RUN mkdir /project/runs
+RUN chown $user:$gid runs
 
 # Run when the container launches
 CMD "bash"

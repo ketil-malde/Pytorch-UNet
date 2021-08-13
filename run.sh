@@ -4,4 +4,4 @@
 
 USERCONFIG="--user ${USERID}:${GROUPID}"
 
-docker run ${OPTIONS} --privileged ${USERCONFIG} --rm -it ${IMAGENAME} $*
+docker run ${OPTIONS} ${USERCONFIG} --rm -it ${IMAGENAME} $*
