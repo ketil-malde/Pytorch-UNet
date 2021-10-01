@@ -30,14 +30,14 @@ RUN useradd -u $uid -g $gid $user
 RUN usermod -a -G sudo $user
 RUN passwd -d $user
 
-COPY . /project
-RUN pip3 install --trusted-host pypi.python.org -r requirements.txt
+COPY . /src
+# RUN pip3 install --trusted-host pypi.python.org -r requirements.txt
 
 # Use v 410 for tensorflow:1.15.2, 460? for pytorch containers
 # RUN apt-get install -y nvidia-utils-460
 
-RUN mkdir /project/runs /project/checkpoints
-RUN chown $user:$gid runs checkpoints
+# RUN mkdir /project/runs /project/checkpoints
+# RUN chown $user:$gid runs checkpoints
 
 # Run when the container launches
 CMD "bash"

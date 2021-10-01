@@ -18,27 +18,27 @@ RUNTIME='' # '--gpus device=0'
 def docker_run(args=''):
     os.system(f'docker run {RUNTIME} --rm --user {USERID}:{GROUPID} -v {CWD}:/project -it {USERNAME}-{IMAGENAME} {args}')
 
-def docker_build():
-    os.system(f'docker build --build-arg user={USERNAME} --build-arg uid={USERID} --build-arg gid={GROUPID} -t {USERNAME}-{IMAGENAME} .')
+def docker_build(path):
+    os.system(f'docker build --build-arg user={USERNAME} --build-arg uid={USERID} --build-arg gid={GROUPID} -t {USERNAME}-{IMAGENAME} {path}')
 
 class Model:
 
-    def build(self):
+    def build(self, conf):
         '''Build the docker container'''
-        docker_build()
+        docker_build(conf['modelpath'])
 
-    def train(self):
+    def train(self, conf):
         '''Train the network'''
         # if no initial weights: python3 /src/download_weights.py
-        docker_run('python3 train.py')
+        docker_run('python3 /src/train.py')
 
-    def check(self):
+    def check(self, conf):
         '''Verify that data is in place and that the output doesn't exist'''
-        pass
+        docker_run('ls -ltra')
 
     def predict(self, target, output):
         '''Run a trained network on the data in target'''
-        pass
+        docker_run('echo "not implemented yet"')
 
     def test(self):
         '''Run tests'''
