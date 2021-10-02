@@ -16,7 +16,7 @@ RUNTIME='' # '--gpus device=0'
 # print(USERID, GROUPID, USERNAME)
 
 def docker_run(args=''):
-    os.system(f'docker run {RUNTIME} --rm --user {USERID}:{GROUPID} -v {CWD}:/project -it {USERNAME}-{IMAGENAME} {args}')
+    os.system(f'docker run --ipc=host {RUNTIME} --rm --user {USERID}:{GROUPID} -v {CWD}:/project -it {USERNAME}-{IMAGENAME} {args}')
 
 def docker_build(path):
     os.system(f'docker build --build-arg user={USERNAME} --build-arg uid={USERID} --build-arg gid={GROUPID} -t {USERNAME}-{IMAGENAME} {path}')
@@ -34,7 +34,7 @@ class Model:
 
     def check(self, conf):
         '''Verify that data is in place and that the output doesn't exist'''
-        docker_run('ls -ltra')
+        docker_run('uname -a')
 
     def predict(self, target, output):
         '''Run a trained network on the data in target'''
