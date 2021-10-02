@@ -23,16 +23,20 @@ def docker_build(path):
 
 class Model:
 
-    def build(self, conf):
-        '''Build the docker container'''
-        docker_build(conf['modelpath'])
+    def __init__(self, conf, mypath):
+        self.config = conf
+        self.mypath = mypath
 
-    def train(self, conf):
+    def build(self):
+        '''Build the docker container'''
+        docker_build(self.mypath)
+
+    def train(self):
         '''Train the network'''
         # if no initial weights: python3 /src/download_weights.py
         docker_run('python3 /src/train.py')
 
-    def check(self, conf):
+    def check(self):
         '''Verify that data is in place and that the output doesn't exist'''
         docker_run('uname -a')
 
