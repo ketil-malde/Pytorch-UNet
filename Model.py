@@ -28,15 +28,18 @@ class Model:
     def train(self):
         '''Train the network'''
         # if no initial weights: python3 /src/download_weights.py
-        self.docker_run('python3 /src/train.py -s 0.2')
+        self.docker_run(f'python3 /src/train.py -s {self.config["scale"]}')
 
     def check(self):
         '''Verify that data is in place and that the output doesn't exist'''
         self.docker_run('ls -ltra')
 
-    def predict(self, target, output):
+    def predict(self, weights, target, output=None):
         '''Run a trained network on the data in target'''
-        self.docker_run('echo "not implemented yet"')
+        # if not output, then --viz --no-save, else...?
+        # for im in os.listdir('test'):
+        # todo: specify weigths?
+        self.docker_run(f'python3 /src/predict.py --model={weights} -i {target}')
 
     def test(self):
         '''Run tests'''
